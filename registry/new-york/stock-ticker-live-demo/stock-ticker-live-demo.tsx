@@ -1,15 +1,18 @@
 "use client"
 
-import { Code2, PackageCheck } from "lucide-react"
+import * as React from "react"
+import { Check, Code2, Copy, PackageCheck } from "lucide-react"
 
 import { StockTicker } from "@/components/stock-ticker"
 import { getMockStockData } from "@/lib/mock-stock-data"
 
 const watchlist = ["NVDA", "AAPL", "TSLA", "META", "AMZN", "MSFT", "GOOGL"]
+const installCommand =
+  "npx shadcn@latest add https://zahlekhan.github.io/ticker-text/r/stock-ticker.json"
 
 export function StockTickerLiveDemo() {
   return (
-    <article className="mx-auto max-w-[920px] pb-20 pt-4 sm:pt-8">
+    <article className="mx-auto max-w-[920px] pb-16 pt-4 sm:pt-8">
       <header className="mb-8 flex flex-wrap items-center justify-between gap-3 border-b border-[#e7e6e1] pb-5">
         <div className="flex items-center gap-2.5 text-sm font-semibold text-[#14181c]">
           <span className="grid size-[22px] place-items-center rounded-md bg-[#14181c] font-mono text-[11px] text-white">
@@ -22,16 +25,16 @@ export function StockTickerLiveDemo() {
         </span>
       </header>
 
-      <section className="mb-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start">
+      <section className="mb-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center">
         <div>
           <p className="mb-3 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[#8a929b]">
             <PackageCheck className="size-3.5" aria-hidden="true" />
             Inline market component
           </p>
-          <h1 className="font-serif text-[clamp(40px,6vw,64px)] font-normal leading-[1.02] tracking-normal text-[#14181c]">
+          <h1 className="font-serif text-[clamp(34px,5vw,52px)] font-normal leading-[1.04] tracking-normal text-[#14181c]">
             Ticker Text
           </h1>
-          <p className="mt-4 max-w-[58ch] text-lg leading-7 text-[#4a5159]">
+          <p className="mt-4 max-w-[58ch] text-base leading-7 text-[#4a5159]">
             Add stock tickers inside prose. Hover or click{" "}
             <StockTicker
               symbol="NVDA"
@@ -42,16 +45,7 @@ export function StockTickerLiveDemo() {
           </p>
         </div>
 
-        <div className="rounded-[14px] border border-[#e7e6e1] bg-white p-4">
-          <p className="mb-3 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[#8a929b]">
-            <Code2 className="size-3.5" aria-hidden="true" />
-            Install
-          </p>
-          <pre className="overflow-x-auto rounded-[10px] bg-[#14181c] p-4 font-mono text-xs leading-6 text-[#d6e6dd]">
-            {`npx shadcn@latest add \\
-https://zahlekhan.github.io/ticker-text/r/stock-ticker.json`}
-          </pre>
-        </div>
+        <InstallCard />
       </section>
 
       <section className="rounded-[18px] border border-[#e7e6e1] bg-white px-6 py-7 shadow-[0_1px_0_rgba(20,24,28,0.04),0_1px_2px_rgba(20,24,28,0.04)] sm:px-10">
@@ -62,7 +56,7 @@ https://zahlekhan.github.io/ticker-text/r/stock-ticker.json`}
           <span className="text-sm text-[#4a5159]">Hover, focus, or click a ticker.</span>
         </div>
 
-        <div className="max-w-[60ch] space-y-4 text-[21px] leading-[1.55] tracking-normal text-[#14181c]">
+        <div className="max-w-[62ch] space-y-4 text-[18px] leading-8 tracking-normal text-[#14181c]">
           <p>
             Cloud names moved first:{" "}
             <StockTicker symbol="MSFT" getStockData={getMockStockData} /> held
@@ -122,5 +116,41 @@ https://zahlekhan.github.io/ticker-text/r/stock-ticker.json`}
         </div>
       </section>
     </article>
+  )
+}
+
+function InstallCard() {
+  const [copied, setCopied] = React.useState(false)
+
+  async function copyInstallCommand() {
+    await navigator.clipboard.writeText(installCommand)
+    setCopied(true)
+    window.setTimeout(() => setCopied(false), 1400)
+  }
+
+  return (
+    <div className="mx-auto w-full max-w-[24rem] rounded-[14px] border border-[#e7e6e1] bg-white p-4">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[#8a929b]">
+          <Code2 className="size-3.5" aria-hidden="true" />
+          Install
+        </p>
+        <button
+          type="button"
+          className="inline-flex items-center gap-1.5 rounded-md border border-[#e7e6e1] bg-[#faf9f5] px-2.5 py-1.5 text-xs font-medium text-[#4a5159] transition hover:border-[#d5d4cd] hover:text-[#14181c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14181c]"
+          onClick={() => void copyInstallCommand()}
+        >
+          {copied ? (
+            <Check className="size-3.5" aria-hidden="true" />
+          ) : (
+            <Copy className="size-3.5" aria-hidden="true" />
+          )}
+          {copied ? "Copied" : "Copy"}
+        </button>
+      </div>
+      <pre className="overflow-x-auto rounded-[10px] bg-[#14181c] p-4 text-center font-mono text-[11px] leading-6 text-[#d6e6dd]">
+        <code>{installCommand}</code>
+      </pre>
+    </div>
   )
 }
