@@ -46,24 +46,23 @@ npm run registry:build
 npm run build
 ```
 
-It publishes `platform-engg/stock-ticker-registry/dist`. The registry install
-URLs will use the repository Pages URL:
+It publishes `dist`. The registry install URLs use the repository Pages URL:
 
 ```bash
-npx shadcn@latest add https://<username>.github.io/<repo>/r/stock-ticker.json
-npx shadcn@latest add https://<username>.github.io/<repo>/r/stock-ticker-live-demo.json
+npx shadcn@latest add https://zahlekhan.github.io/ticker-text/r/stock-ticker.json
+npx shadcn@latest add https://zahlekhan.github.io/ticker-text/r/stock-ticker-live-demo.json
 ```
 
 ## Install from a deployed registry
 
 ```bash
-npx shadcn@latest add https://your-domain.com/r/stock-ticker.json
+npx shadcn@latest add https://zahlekhan.github.io/ticker-text/r/stock-ticker.json
 ```
 
 The mock demo item can be installed with:
 
 ```bash
-npx shadcn@latest add https://your-domain.com/r/stock-ticker-live-demo.json
+npx shadcn@latest add https://zahlekhan.github.io/ticker-text/r/stock-ticker-live-demo.json
 ```
 
 ## Connect a Stock API

@@ -20,10 +20,7 @@ export function StockTickerLiveDemo() {
             <span>Stock Ticker Registry</span>
           </div>
           <div className="flex items-center gap-4 font-mono text-[11px] uppercase tracking-[0.08em] text-[#8a929b]">
-            <span className="inline-flex items-center gap-2 text-[#1b8054]">
-              <span className="size-[7px] rounded-full bg-[#1b8054] shadow-[0_0_0_5px_rgba(27,128,84,0.08)]" />
-              Static registry
-            </span>
+            <span>Public registry</span>
             <span>shadcn/ui</span>
           </div>
         </div>
@@ -56,7 +53,7 @@ export function StockTickerLiveDemo() {
             </p>
             <pre className="overflow-x-auto rounded-[10px] bg-[#14181c] p-4 font-mono text-xs leading-6 text-[#d6e6dd]">
               {`npx shadcn@latest add \\
-https://<user>.github.io/<repo>/r/stock-ticker.json`}
+https://zahlekhan.github.io/ticker-text/r/stock-ticker.json`}
             </pre>
             <p className="mt-3 text-[13px] leading-5 text-[#4a5159]">
               The public landing page and registry demo are the same route, so
@@ -70,7 +67,7 @@ https://<user>.github.io/<repo>/r/stock-ticker.json`}
         <div className="mb-7 flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-[0.1em] text-[#8a929b]">
           <span className="inline-flex items-center gap-2">
             <Database className="size-3.5" aria-hidden="true" />
-            Live component demo / mock data
+            Component demo / mock data
           </span>
           <span className="inline-flex items-center gap-2 normal-case tracking-normal text-[#4a5159] [font-family:var(--font-sans)]">
             Hover, focus, or click a ticker

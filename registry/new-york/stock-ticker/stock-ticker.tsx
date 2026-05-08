@@ -227,17 +227,6 @@ export function StockTicker({
           >
             <span className="text-[#8a929b]">$</span>
             <span>{label}</span>
-            {summary ? (
-              <span
-                className={cn(
-                  "ml-1 text-[0.85em] font-medium",
-                  tone === "down" ? "text-[#c0392b]" : "text-[#1b8054]"
-                )}
-                aria-hidden="true"
-              >
-                {formatSignedPercent(summary.changePercent)}
-              </span>
-            ) : null}
             {isLoading ? (
               <span
                 className="mb-0.5 ml-0.5 size-1.5 rounded-full bg-current opacity-55 motion-safe:animate-pulse"
@@ -444,14 +433,10 @@ function StockPreview({
             <p className="font-mono text-[13px] font-semibold tracking-[0.02em] text-[#14181c]">
               {symbol}
             </p>
-            <p className="max-w-[190px] truncate text-[11.5px] text-[#8a929b]">
-              {data?.companyName ?? "Live preview surface"}
+            <p className="max-w-[220px] truncate text-[11.5px] text-[#8a929b]">
+              {data?.companyName ?? "Market preview"}
             </p>
           </div>
-        </div>
-        <div className="inline-flex items-center gap-1.5 pt-1 font-mono text-[10px] uppercase tracking-[0.08em] text-[#8a929b]">
-          <span className="size-1.5 rounded-full bg-[#1b8054] shadow-[0_0_0_4px_rgba(27,128,84,0.08)]" />
-          Live
         </div>
       </div>
 
