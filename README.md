@@ -1,4 +1,4 @@
-# Stock Ticker Registry
+# Ticker Text
 
 Standalone shadcn registry project for an inline stock ticker component with a
 hover chart preview and click-to-open chart modal.
