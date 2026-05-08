@@ -1,0 +1,47 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "thesys",
+  "homepage": "https://thesys.dev",
+  "items": [
+    {
+      "name": "stock-ticker",
+      "type": "registry:block",
+      "title": "Stock Ticker",
+      "description": "Inline stock ticker text with hover preview and modal chart.",
+      "dependencies": ["recharts"],
+      "registryDependencies": ["hover-card", "dialog", "skeleton"],
+      "files": [
+        {
+          "path": "registry/new-york/stock-ticker/stock-ticker.tsx",
+          "type": "registry:component",
+          "target": "@components/stock-ticker.tsx"
+        }
+      ]
+    },
+    {
+      "name": "stock-ticker-live-demo",
+      "type": "registry:block",
+      "title": "Stock Ticker Live Demo",
+      "description": "Mock-data example for the StockTicker component.",
+      "dependencies": ["recharts"],
+      "registryDependencies": ["hover-card", "dialog", "skeleton"],
+      "files": [
+        {
+          "path": "registry/new-york/stock-ticker/stock-ticker.tsx",
+          "type": "registry:component",
+          "target": "@components/stock-ticker.tsx"
+        },
+        {
+          "path": "registry/new-york/stock-ticker-live-demo/mock-stock-data.ts",
+          "type": "registry:lib",
+          "target": "@lib/mock-stock-data.ts"
+        },
+        {
+          "path": "registry/new-york/stock-ticker-live-demo/stock-ticker-live-demo.tsx",
+          "type": "registry:component",
+          "target": "@components/stock-ticker-live-demo.tsx"
+        }
+      ]
+    }
+  ]
+}
