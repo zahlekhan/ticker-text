@@ -10,6 +10,40 @@ const watchlist = ["NVDA", "AAPL", "TSLA", "META", "AMZN", "MSFT", "GOOGL"]
 const installCommand =
   "npx shadcn@latest add https://zahlekhan.github.io/ticker-text/r/stock-ticker.json"
 
+type DemoToken =
+  | {
+      type: "text"
+      value: string
+    }
+  | {
+      type: "ticker"
+      symbol: string
+    }
+
+const demoParagraphs: DemoToken[][] = [
+  [
+    { type: "text", value: "Cloud names moved first: " },
+    { type: "ticker", symbol: "MSFT" },
+    { type: "text", value: " held its lead while " },
+    { type: "ticker", symbol: "GOOGL" },
+    { type: "text", value: " gained on services revenue." },
+  ],
+  [
+    { type: "text", value: "Hardware was mixed. " },
+    { type: "ticker", symbol: "AAPL" },
+    { type: "text", value: " guided cautiously, " },
+    { type: "ticker", symbol: "NVDA" },
+    { type: "text", value: " kept margins high, and " },
+    { type: "ticker", symbol: "TSLA" },
+    { type: "text", value: " traded lower after delivery updates." },
+  ],
+]
+
+const demoTokenCount = demoParagraphs.reduce(
+  (total, paragraph) => total + paragraph.length,
+  0
+)
+
 export function StockTickerLiveDemo() {
   return (
     <article className="mx-auto max-w-[920px] pb-16 pt-4 sm:pt-8">
@@ -53,27 +87,12 @@ export function StockTickerLiveDemo() {
           <h2 className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#8a929b]">
             Demo
           </h2>
-          <span className="text-sm text-[#4a5159]">Hover, focus, or click a ticker.</span>
+          <span className="text-sm text-[#4a5159]">
+            Streaming generated text with inline tickers.
+          </span>
         </div>
 
-        <div className="max-w-[62ch] space-y-4 text-[18px] leading-8 tracking-normal text-[#14181c]">
-          <p>
-            Cloud names moved first:{" "}
-            <StockTicker symbol="MSFT" getStockData={getMockStockData} /> held
-            its lead while{" "}
-            <StockTicker symbol="GOOGL" getStockData={getMockStockData} /> gained
-            on services revenue.
-          </p>
-          <p>
-            Hardware was mixed.{" "}
-            <StockTicker symbol="AAPL" getStockData={getMockStockData} /> guided
-            cautiously,{" "}
-            <StockTicker symbol="NVDA" getStockData={getMockStockData} /> kept
-            margins high, and{" "}
-            <StockTicker symbol="TSLA" getStockData={getMockStockData} /> traded
-            lower after delivery updates.
-          </p>
-        </div>
+        <StreamedMarketBrief />
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-dashed border-[#e7e6e1] pt-6">
           <span className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-[#8a929b]">
@@ -116,6 +135,75 @@ export function StockTickerLiveDemo() {
         </div>
       </section>
     </article>
+  )
+}
+
+function StreamedMarketBrief() {
+  const [visibleTokens, setVisibleTokens] = React.useState(0)
+
+  React.useEffect(() => {
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches
+
+    if (reduceMotion) {
+      setVisibleTokens(demoTokenCount)
+      return
+    }
+
+    setVisibleTokens(0)
+
+    const timer = window.setInterval(() => {
+      setVisibleTokens((current) => {
+        if (current >= demoTokenCount) {
+          window.clearInterval(timer)
+          return current
+        }
+
+        return current + 1
+      })
+    }, 220)
+
+    return () => window.clearInterval(timer)
+  }, [])
+
+  let consumedTokens = 0
+  const isStreaming = visibleTokens < demoTokenCount
+
+  return (
+    <div className="max-w-[62ch] space-y-4 text-[18px] leading-8 tracking-normal text-[#14181c]">
+      {demoParagraphs.map((paragraph, paragraphIndex) => {
+        const availableTokens = Math.max(0, visibleTokens - consumedTokens)
+        const paragraphTokens = paragraph.slice(0, availableTokens)
+        consumedTokens += paragraph.length
+
+        if (paragraphTokens.length === 0) {
+          return null
+        }
+
+        const isLastVisibleParagraph =
+          isStreaming && availableTokens > 0 && availableTokens <= paragraph.length
+
+        return (
+          <p key={paragraphIndex}>
+            {paragraphTokens.map((token, tokenIndex) =>
+              token.type === "text" ? (
+                <span key={tokenIndex}>{token.value}</span>
+              ) : (
+                <StockTicker
+                  key={tokenIndex}
+                  symbol={token.symbol}
+                  getStockData={getMockStockData}
+                />
+              )
+            )}
+            {isLastVisibleParagraph ? (
+              <span className="ml-1 inline-block h-5 w-1 translate-y-1 rounded-full bg-[#14181c] motion-safe:animate-pulse" />
+            ) : null}
+          </p>
+        )
+      })}
+    </div>
   )
 }
 
