@@ -227,12 +227,6 @@ export function StockTicker({
           >
             <span className="text-[#8a929b]">$</span>
             <span>{label}</span>
-            {isLoading ? (
-              <span
-                className="mb-0.5 ml-0.5 size-1.5 rounded-full bg-current opacity-55 motion-safe:animate-pulse"
-                aria-hidden="true"
-              />
-            ) : null}
           </button>
         </HoverCardTrigger>
         <HoverCardContent
