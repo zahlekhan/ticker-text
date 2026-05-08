@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Check, Code2, Copy, PackageCheck } from "lucide-react"
+import { Check, Code2, PackageCheck } from "lucide-react"
 
 import { StockTicker } from "@/components/stock-ticker"
 import { getMockStockData } from "@/lib/mock-stock-data"
@@ -25,8 +25,8 @@ export function StockTickerLiveDemo() {
         </span>
       </header>
 
-      <section className="mb-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center">
-        <div>
+      <section className="mb-8">
+        <div className="max-w-[58ch]">
           <p className="mb-3 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[#8a929b]">
             <PackageCheck className="size-3.5" aria-hidden="true" />
             Inline market component
@@ -34,7 +34,7 @@ export function StockTickerLiveDemo() {
           <h1 className="font-serif text-[clamp(34px,5vw,52px)] font-normal leading-[1.04] tracking-normal text-[#14181c]">
             Ticker Text
           </h1>
-          <p className="mt-4 max-w-[58ch] text-base leading-7 text-[#4a5159]">
+          <p className="mt-4 text-base leading-7 text-[#4a5159]">
             Add stock tickers inside prose. Hover or click{" "}
             <StockTicker
               symbol="NVDA"
@@ -129,28 +129,31 @@ function InstallCard() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-[24rem] rounded-[14px] border border-[#e7e6e1] bg-white p-4">
-      <div className="mb-3 flex items-center justify-between gap-3">
+    <div className="relative mx-auto mt-7 w-full max-w-3xl rounded-[14px] border border-[#e7e6e1] bg-white p-4">
+      <div className="mb-3 flex items-center justify-center">
         <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[#8a929b]">
           <Code2 className="size-3.5" aria-hidden="true" />
-          Install
+          Click command to copy
         </p>
-        <button
-          type="button"
-          className="inline-flex items-center gap-1.5 rounded-md border border-[#e7e6e1] bg-[#faf9f5] px-2.5 py-1.5 text-xs font-medium text-[#4a5159] transition hover:border-[#d5d4cd] hover:text-[#14181c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14181c]"
-          onClick={() => void copyInstallCommand()}
-        >
-          {copied ? (
-            <Check className="size-3.5" aria-hidden="true" />
-          ) : (
-            <Copy className="size-3.5" aria-hidden="true" />
-          )}
-          {copied ? "Copied" : "Copy"}
-        </button>
       </div>
-      <pre className="overflow-x-auto rounded-[10px] bg-[#14181c] p-4 text-center font-mono text-[11px] leading-6 text-[#d6e6dd]">
+      <button
+        type="button"
+        className="block w-full overflow-x-auto rounded-[10px] bg-[#14181c] p-4 text-center font-mono text-[11px] leading-6 text-[#d6e6dd] transition hover:bg-[#1d2329] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14181c] focus-visible:ring-offset-2"
+        onClick={() => void copyInstallCommand()}
+      >
         <code>{installCommand}</code>
-      </pre>
+      </button>
+      <div
+        className={[
+          "pointer-events-none absolute left-1/2 top-full mt-3 inline-flex -translate-x-1/2 items-center gap-2 rounded-full bg-[#14181c] px-3 py-2 text-xs font-medium text-white shadow-[0_12px_28px_rgba(20,24,28,0.18)] transition",
+          copied ? "translate-y-0 opacity-100" : "-translate-y-1 opacity-0",
+        ].join(" ")}
+        role="status"
+        aria-live="polite"
+      >
+        <Check className="size-3.5" aria-hidden="true" />
+        Copied
+      </div>
     </div>
   )
 }
